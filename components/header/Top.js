@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useState } from "react";
 import UserMenu from "./UserMenu";
 
-export default function Top() {
+export default function Top({ country }) {
   const [loggedIn, setLoggedIn] = useState(true);
   const [visible, setVisible] = useState(false);
 
@@ -16,8 +16,10 @@ export default function Top() {
         <div></div>
         <ul className={styles.top__list}>
           <li>
-            <img src="https://www.yo-yoo.co.il/flags/images/fca739.png" />
-            <span>Israel/ILS</span>
+            {/* <img src="https://www.yo-yoo.co.il/flags/images/fca739.png" /> */}
+            <img src={country.flag} />
+            {/* <span>Israel/ILS</span> */}
+            <span>{country.name}</span>
           </li>
           <li className={styles.li}>
             <MdSecurity />
@@ -35,12 +37,10 @@ export default function Top() {
               <span> רשימת המשאלות</span>
             </Link>
           </li>
-          <li className={styles.li}
-          
-             onMouseOver={() =>  setVisible(true)}
-             onMouseLeave={() =>  setVisible(false)}
-          
-          
+          <li
+            className={styles.li}
+            onMouseOver={() => setVisible(true)}
+            onMouseLeave={() => setVisible(false)}
           >
             {loggedIn ? (
               <li>
