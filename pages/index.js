@@ -5,12 +5,17 @@ import Header from "../components/header";
 import Footer from "@/components/footer";
 import axios from "axios";
 const inter = Inter({ subsets: ["latin"] });
+import { useSession, signIn, signOut } from "next-auth/react";
 
 export default function Home({ country }) {
+  const { data: session } = useSession();
+  console.log(session);
+
   return (
     <>
       <div>
         <Header country={country} />
+        {session ? "אתה מחובר" : "אתה לא מחובר"}
         <Footer country={country} />
       </div>
     </>
