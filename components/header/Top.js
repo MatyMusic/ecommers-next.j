@@ -19,9 +19,9 @@ export default function Top({ country }) {
         <ul className={styles.top__list}>
           <li>
             {/* <img src="https://www.yo-yoo.co.il/flags/images/fca739.png" /> */}
-            <img src={country.flag} />
+            <img src={country?.flag} />
             {/* <span>Israel/ILS</span> */}
-            <span>{country.name}</span>
+            <span>{country?.name}</span>
           </li>
           <li className={styles.li}>
             <MdSecurity />
