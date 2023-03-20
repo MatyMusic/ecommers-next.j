@@ -28,7 +28,24 @@
     &::placeholder {
       color: #aaa;
       font-weight: 500;
-      
     }
   }
+}
+
+.error {
+  background: $light-error-color;
+  margin-top: 5rem !important;
+  input {
+    color: #fff !important;
+    &::placeholder {
+      color: #fff !important;
+    }
+  }
+
+
+svg{
+    fill: #fff !important;
+    stroke: #fff;
+}
+
 }
