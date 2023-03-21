@@ -8,13 +8,16 @@ import * as Yup from "yup";
 import LoginInput from "@/components/inputs/loginInput";
 import { useState } from "react";
 import CircledIconBtn from "@/components/buttons/circledIconBtn";
+import { getProviders, signIn } from "next-auth/react";
 
 const initialvalues = {
   login_email: "",
   login_password: "",
 };
 
-export default function signin() {
+export default function signin({ providers }) {
+  console.log(providers);
+
   const [user, setUser] = useState(initialvalues);
   const { login_email, login_password } = user;
   const handleChange = (e) => {
@@ -77,10 +80,34 @@ export default function signin() {
                 </Form>
               )}
             </Formik>
+            <div className={styles.login__socials}>
+              <span className={styles.or}>הירשם באמצעות</span>
+
+              <div className={styles.login__socials_wrap}>
+                {providers.map((provider) => (
+                  <div key={provider.name}>
+                    <button
+                      className={styles.socials__btn}
+                      onClick={() => signIn(provider.id)}
+                    >
+                      <img src={`../../icons/${provider.name}.png`} />
+                      {provider.name} להיכנס עם
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
       <Footer country="ישראל" />
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const providers = Object.values(await getProviders());
+  return {
+    props: { providers },
+  };
 }
