@@ -13,29 +13,57 @@ import { getProviders, signIn } from "next-auth/react";
 const initialvalues = {
   login_email: "",
   login_password: "",
+  name: "",
+  email: "",
+  password: "",
+  conf_password: "",
 };
 
 export default function signin({ providers }) {
   console.log(providers);
 
   const [user, setUser] = useState(initialvalues);
-  const { login_email, login_password } = user;
+  const { login_email, login_password, name, email, password, conf_password } =
+    user;
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
   };
-  console.log(user);
+
+  //  ===============כניסה==========================
   const loginValidation = Yup.object({
     login_email: Yup.string()
       .required("נא למלא כתובת אימייל")
       .email("נא להזין כתובת אימייל חוקית"),
     login_password: Yup.string().required("הקלד סיסמא בבקשה"),
   });
+  // ===================הירשם========================
+  const registerValidation = Yup.object({
+    name: Yup.string()
+      .required("נשמח לדעת מה השם שלך")
+      .min(2, "שם פרטי חייב להיות בין 2 עד 16 תווים")
+      .max(16, "שם פרטי חייב להיות בין 2 עד 16 תווים")
+      .matches(/^[aA-zZ א-ת ]/, "אסור להשתמש במספרים ותווים מיוחדים"),
+    email: Yup.string().required(
+      "תזדקק לזה כשתתחבר ואם תצטרך אי פעם לאפס את הסיסמה שלך"
+    )
+    .email("הכנס כתובת אימייל תקינה"),
+    password: Yup.string()
+      .required(
+        "הזן שילוב של לפחות שישה מספרים, אותיות וסימני פיסוק (כגון ! ו-&)"
+      )
+      .min(6, "סיסמא חייבת להיות לפחות בת 6 תווים.")
+      .max(36, "הסיסמה לא יכולה להיות יותר מ-36 תווים"),
+    conf_password: Yup.string()
+      .required("אמת סיסמתך")
+      .oneOf([Yup.ref("password")], "הססמאות חייבות להיות זהות."),
+  });
 
   return (
     <>
       <Header />
       <div className={styles.login}>
+        {/* כניסה */}
         <div className={styles.login__container}>
           <div className={styles.login__header}>
             <div className={styles.back__svg}>
@@ -97,6 +125,61 @@ export default function signin({ providers }) {
                 ))}
               </div>
             </div>
+          </div>
+        </div>
+        {/* =================הירשם  =======================*/}
+        <div className={styles.login__container}>
+          <div className={styles.login__form}>
+            <h1>הירשם</h1>
+            <p>קבל גישה לאחד משירותי הקניות הטובים בעולם</p>
+            <Formik
+              enableReinitialize
+              initialValues={{
+                name,
+                email,
+                password,
+                conf_password,
+              }}
+              validationSchema={registerValidation}
+            >
+              {(form) => (
+                <Form>
+                  <LoginInput
+                    type="text"
+                    name="name"
+                    icon="user"
+                    placeholder="שם מלא"
+                    onChange={handleChange}
+                  />
+
+                  <LoginInput
+                    type="text"
+                    name="email"
+                    icon="email"
+                    placeholder="כתובת אימייל"
+                    onChange={handleChange}
+                  />
+
+                  <LoginInput
+                    type="password"
+                    name="password"
+                    icon="password"
+                    placeholder=" סיסמא"
+                    onChange={handleChange}
+                  />
+
+                  <LoginInput
+                    type="password"
+                    name="conf_password"
+                    icon="password"
+                    placeholder=" אימות סיסימא"
+                    onChange={handleChange}
+                  />
+
+                  <CircledIconBtn type="submit" text="הירשם" />
+                </Form>
+              )}
+            </Formik>
           </div>
         </div>
       </div>
