@@ -70,7 +70,10 @@ export default function signin() {
                     placeholder=" סיסמא"
                     onChange={handleChange}
                   />
-                  <CircledIconBtn/>
+                  <CircledIconBtn type="submit" text="כניסה" />
+                  <div className={styles.forgot}>
+                    <Link href="/forget">שכחתי סיסמא</Link>
+                  </div>
                 </Form>
               )}
             </Formik>
