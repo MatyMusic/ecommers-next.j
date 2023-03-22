@@ -4,6 +4,7 @@ import { validateEmail } from "../../../utils/validation";
 import db from "@/utils/db";
 import User from "@/models/User";
 import { createActivationToken } from "@/utils/tokens";
+import { sendEmail } from "@/utils/sendEmails";
 
 const handler = nc();
 
@@ -37,13 +38,14 @@ handler.post(async (req, res) => {
       id: addedUser._id.toString(),
     });
 
-    
-    
+    const url = `${process.env.BASE_URL}/activate/${activation_token}`;
+    sendEmail(email, url, "", "הפעל את החשבון שלך");
+    await db.disconnectDb();
+    res.json({
+      message: 'נרשמת בהצלחה, נא אשר את החשבון בלינק שנשלח לדוא"ל',
+    });
 
-
-
-    console.log(activation_token);
-    res.send(activation_token);
+    res.send(url);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

@@ -9,6 +9,7 @@ import LoginInput from "@/components/inputs/loginInput";
 import { useState } from "react";
 import CircledIconBtn from "@/components/buttons/circledIconBtn";
 import { getProviders, signIn } from "next-auth/react";
+import axios from "axios";
 
 const initialvalues = {
   login_email: "",
@@ -17,14 +18,24 @@ const initialvalues = {
   email: "",
   password: "",
   conf_password: "",
+  success: "",
+  error: "",
 };
 
 export default function signin({ providers }) {
-  console.log(providers);
+  const [loading, setLoading] = useState(false);
 
   const [user, setUser] = useState(initialvalues);
-  const { login_email, login_password, name, email, password, conf_password } =
-    user;
+  const {
+    login_email,
+    login_password,
+    name,
+    email,
+    password,
+    conf_password,
+    success,
+    error,
+  } = user;
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
@@ -44,10 +55,9 @@ export default function signin({ providers }) {
       .min(2, "שם פרטי חייב להיות בין 2 עד 16 תווים")
       .max(16, "שם פרטי חייב להיות בין 2 עד 16 תווים")
       .matches(/^[aA-zZ א-ת ]/, "אסור להשתמש במספרים ותווים מיוחדים"),
-    email: Yup.string().required(
-      "תזדקק לזה כשתתחבר ואם תצטרך אי פעם לאפס את הסיסמה שלך"
-    )
-    .email("הכנס כתובת אימייל תקינה"),
+    email: Yup.string()
+      .required("תזדקק לזה כשתתחבר ואם תצטרך אי פעם לאפס את הסיסמה שלך")
+      .email("הכנס כתובת אימייל תקינה"),
     password: Yup.string()
       .required(
         "הזן שילוב של לפחות שישה מספרים, אותיות וסימני פיסוק (כגון ! ו-&)"
@@ -58,6 +68,25 @@ export default function signin({ providers }) {
       .required("אמת סיסמתך")
       .oneOf([Yup.ref("password")], "הססמאות חייבות להיות זהות."),
   });
+
+  const signUpHandler = async () => {
+    try {
+      setLoading(true);
+
+      const { data } = await axios.post("/api/auth/signup", {
+        name,
+        email,
+        password,
+      });
+
+      setUser({ ...user, error: "", success: data.message });
+
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setUser({ ...user, success: "", error: error.response.data.message });
+    }
+  };
 
   return (
     <>
@@ -141,6 +170,9 @@ export default function signin({ providers }) {
                 conf_password,
               }}
               validationSchema={registerValidation}
+              onSubmit={() => {
+                signUpHandler();
+              }}
             >
               {(form) => (
                 <Form>
@@ -180,6 +212,9 @@ export default function signin({ providers }) {
                 </Form>
               )}
             </Formik>
+
+            <div>{success && <span>{success}</span>}</div>
+            <div>{error && <span>{error}</span>}</div>
           </div>
         </div>
       </div>
