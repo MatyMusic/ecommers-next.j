@@ -2,6 +2,7 @@ import Menu from "./Menu";
 import Offers from "./offers";
 import styles from "./styles.module.scss";
 import MainSwiper from "./swiper";
+import User from "./User";
 
 export default function Main() {
   return (
@@ -10,7 +11,7 @@ export default function Main() {
         <Menu/>
       <MainSwiper />
       <Offers/>
-      <div className={styles.user}>user</div>
+      <User/>
     </div>
   );
 }

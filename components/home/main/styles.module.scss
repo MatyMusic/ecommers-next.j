@@ -214,10 +214,11 @@
           text-transform: capitalize;
         }
         &_btns {
-          margin-top: 1rem;
+          margin-top: 0rem;
           display: flex;
           align-items: center;
           gap: 1rem;
+          margin-top: 15px;
           button {
             width: 100px;
             height: 35px;
@@ -235,7 +236,7 @@
         }
       }
       &__links {
-        margin-top: 1rem;
+        margin-top: 3rem;
         display: flex;
         align-items: center;
         justify-content: center;
