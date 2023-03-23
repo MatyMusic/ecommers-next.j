@@ -6,6 +6,7 @@ import Footer from "@/components/footer";
 import axios from "axios";
 const inter = Inter({ subsets: ["latin"] });
 import { useSession, signIn, signOut } from "next-auth/react";
+import Main from "@/components/home/main";
 
 export default function Home({ country }) {
   const { data: session } = useSession();
@@ -13,11 +14,13 @@ export default function Home({ country }) {
 
   return (
     <>
-      <div>
-        <Header country={country} />
-        {session ? "אתה מחובר" : "אתה לא מחובר"}
-        <Footer country={country} />
+      <Header country={country} />
+      <div className={styles.home}>
+        <div className={styles.container}>
+          <Main/>
+        </div>
       </div>
+      <Footer country={country} />
     </>
   );
 }
