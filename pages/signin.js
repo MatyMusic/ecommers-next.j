@@ -184,7 +184,7 @@ export default function signin({ providers, callbackUrl, csrfToken }) {
                   )}
 
                   <div className={styles.forgot}>
-                    <Link href="/forget">שכחתי סיסמא</Link>
+                    <Link href="/auth/forgot">שכחתי סיסמא</Link>
                   </div>
                 </Form>
               )}
