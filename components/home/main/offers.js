@@ -21,7 +21,7 @@ export default function Offers() {
           <b>
             "MFC-2023" <br />
           </b>{" "}
-          -30% ולקבל הנחה על כל המוצרים
+         ולקבל  -30%  הנחה על כל המוצרים
         </p>
         <Link href="/browse">קנה עכשיו</Link>
       </div>
