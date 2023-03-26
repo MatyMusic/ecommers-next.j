@@ -14,6 +14,7 @@ export default function Main() {
         <Link href="/" legacyBehavior>
           <a className={styles.logo}>
             <img src="../../../logo.png" alt="" />
+            {/* <img src="../../../logo7.png" alt="" style={{  height:'7rem',width: '14rem', background:'#f8f8f8' , borderTopRightRadius:'80px', }} /> */}
           </a>
         </Link>
         <div className={styles.search}>
